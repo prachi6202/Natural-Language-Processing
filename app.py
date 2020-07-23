@@ -4,7 +4,7 @@ import pickle
 import os
 import nltk
 from datetime import datetime
-nltk.download('punkt')
+#nltk.download('punkt')
 
 app = Flask(__name__)
 model=pickle.load(open('spam_classifier.pkl','rb'))
