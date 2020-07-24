@@ -1,13 +1,16 @@
-import numpy as np
-from flask import Flask,render_template,url_for,request,redirect,jsonify
+from flask import Flask,render_template,url_for,request
+import pandas as pd
 import pickle
-import os
-import nltk
-from datetime import datetime
-#nltk.download('punkt')
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.externals import joblib
 
+
+# load the model from disk
+filename = 'spam_classifier.pkl'
+clf = pickle.load(open(filename, 'rb'))
+cv=pickle.load(open('tranform.pkl','rb'))
 app = Flask(__name__)
-model=pickle.load(open('spam_classifier.pkl','rb'))
 
 @app.route('/')
 def home():
@@ -15,13 +18,12 @@ def home():
 
 @app.route('/predict',methods=['GET','POST'])
 def predict():
-    # url=request.get_data(as_text=True)[5:]
-    text=int(input())
-    prediction=model.predict(text)
-
-
-
-    return render_template('index.html',prediction_text='Email is {}'.format(prediction))
+    	if request.method == 'POST':
+    		message = request.form['message']
+    		data = [message]
+    		vect = cv.transform(data).toarray()
+    		my_prediction = clf.predict(vect)
+    	return render_template('result.html',prediction = my_prediction)
 
 
 
