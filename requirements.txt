@@ -99,7 +99,7 @@ text-unidecode==1.3
 tornado==6.0.4
 tqdm==4.46.1
 traitlets==4.3.3
-urllib3==1.25.8
+urllib3==1.26.5
 virtualenv==20.0.18
 virtualenvwrapper-win==1.2.6
 visions==0.4.4
